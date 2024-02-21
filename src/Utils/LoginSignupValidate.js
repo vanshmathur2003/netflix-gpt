@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 
 export const LoginSignupValidate = (email,password) => {
     const isEmailValid = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)
