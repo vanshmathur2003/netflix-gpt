@@ -1,6 +1,9 @@
+/* eslint-disable no-unused-vars */
 import { Link } from "react-router-dom"
 import { LoginSignupValidate } from "../Utils/LoginSignupValidate"
 import { useRef, useState } from "react"
+import {  createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../Utils/firebase";
 
 
 
@@ -16,6 +19,18 @@ const SignupPage = () => {
     const handleBtnClick = () => {
         const message = LoginSignupValidate(email.current.value, pass.current.value)
         setErrorMessage(message)
+        if (message) return;
+        createUserWithEmailAndPassword(auth, email.current.value, pass.current.value)
+            .then((userCredential) => {
+                // Signed up 
+                const user = userCredential.user;
+                // ...
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                // ..
+            });
     }
 
 
