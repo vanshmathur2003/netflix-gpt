@@ -24,6 +24,7 @@ const SignupPage = () => {
             .then((userCredential) => {
                 // Signed up 
                 const user = userCredential.user;
+                setErrorMessage("User Succesfully Signed up")
                 // ...
             })
             .catch((error) => {
