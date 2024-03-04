@@ -4,6 +4,7 @@ import { LoginSignupValidate } from "../Utils/LoginSignupValidate"
 import { useRef, useState } from "react"
 import { signInWithEmailAndPassword } from "firebase/auth";
 import {auth} from "../Utils/firebase"
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -13,6 +14,7 @@ const bgImg = "https://assets.nflxext.com/ffe/siteui/vlv3/c0b69670-89a3-48ca-877
 
 
 const LoginPage = () => {
+  const navigate = useNavigate()
   const [errorMessage, setErrorMessage] = useState(null)
   const pass = useRef()
   const email = useRef()
@@ -26,11 +28,13 @@ const LoginPage = () => {
         console.log("aaha")
         // Signed in 
         const user = userCredential.user;
+        navigate("/Browse")
         // ...
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
+        setErrorMessage("Invalid Password")
       });
   }
 
@@ -46,7 +50,7 @@ const LoginPage = () => {
           <form className="flex flex-col " onSubmit={(e) => { e.preventDefault() }}>
             <input ref={email} type="text" placeholder="Email Address" className="p-2 pl-4 m-2 rounded-md bg-gray-700" />
             <input ref={pass} type="password" placeholder="Password" className="p-2 pl-4 m-2 rounded-md  bg-gray-700" />
-            <p className="ml-4 text-red-500 text-[10px]">{errorMessage}</p>
+            <p className="ml-4 text-red-500 text-[10px]">{ errorMessage }</p>
             <button onClick={handleBtnClick} className="p-2 m-2 bg-red-700 rounded-md ">Sign In</button>
           </form>
           <div className="flex flex-row mt-12 ml-2">

@@ -2,8 +2,12 @@
 import { Link } from "react-router-dom"
 import { LoginSignupValidate } from "../Utils/LoginSignupValidate"
 import { useRef, useState } from "react"
-import {  createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../Utils/firebase";
+import { useNavigate } from "react-router-dom";
+import { updateProfile } from "firebase/auth";
+import { useDispatch } from "react-redux";
+import { addUser } from "../Utils/userSlice";
 
 
 
@@ -12,7 +16,11 @@ const bgImg = "https://assets.nflxext.com/ffe/siteui/vlv3/c0b69670-89a3-48ca-877
 
 
 const SignupPage = () => {
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
     const [errorMessage, setErrorMessage] = useState(null)
+    const name = useRef()
     const pass = useRef()
     const email = useRef()
 
@@ -24,12 +32,24 @@ const SignupPage = () => {
             .then((userCredential) => {
                 // Signed up 
                 const user = userCredential.user;
+                updateProfile(user, {
+                    displayName: name.current.value
+                }).then(() => {
+                    // Profile updated!
+                    const { uid, email, displayName } = auth.currentUser;
+                    dispatch(addUser({ uid: uid, email: email, displayName: displayName }))
+                    navigate("/Browse")
+
+                }).catch((error) => {
+                    setErrorMessage(error)
+
+                });
                 setErrorMessage("User Succesfully Signed up")
                 // ...
             })
             .catch((error) => {
                 const errorCode = error.code;
-                const errorMessage = error.message;
+                setErrorMessage(error.message);
                 // ..
             });
     }
@@ -44,7 +64,7 @@ const SignupPage = () => {
                 <div className="p-12">
                     <h1 className="text-3xl pl-2 pb-2">Sign Up</h1>
                     <form className="flex flex-col " onSubmit={(e) => { e.preventDefault() }}>
-                        <input type="text" placeholder="Full Name" className="p-2 pl-4 m-2 rounded-md bg-gray-700" />
+                        <input ref={name} type="text" placeholder="Full Name" className="p-2 pl-4 m-2 rounded-md bg-gray-700" />
                         <input ref={email} type="text" placeholder="Email Address" className="p-2 pl-4 m-2 rounded-md bg-gray-700" />
                         <input ref={pass} type="password" placeholder="Password" className="p-2 pl-4 m-2 rounded-md  bg-gray-700" />
                         <p className="ml-4 text-red-500 text-[10px]">{errorMessage}</p>
