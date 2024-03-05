@@ -32,6 +32,8 @@ function App() {
         // User is signed in, see docs for a list of available properties
         const { uid, email, displayName } = user;
         dispatch(addUser({ uid: uid, email: email, displayName: displayName }))
+        console.log("ok")
+        // navigate("/Browse")
         // ...
       } else {
         // User is signed out
