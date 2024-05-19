@@ -25,7 +25,6 @@ const LoginPage = () => {
     if (message) return;
     signInWithEmailAndPassword(auth,email.current.value, pass.current.value)
       .then((userCredential) => {
-        console.log("aaha")
         // Signed in 
         const user = userCredential.user;
         navigate("/Browse")
@@ -57,6 +56,7 @@ const LoginPage = () => {
             <h3 className="pr-2 text-gray-400">New to Netflix? </h3>
             <Link to={"/Signup"}><button>Sign up now.</button> </Link>
           </div>
+          <div>demo - demo1234@gmail.com, demo1234</div>
         </div>
       </div>
     </>
