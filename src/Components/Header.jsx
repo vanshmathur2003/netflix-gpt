@@ -23,15 +23,15 @@ const Header = () => {
     }
     
   return (
-    <div><div className="flex justify-between items-center bg-black">
+    <div><div className="flex justify-between items-center bg-black ">
     <div>
       <img src={toplogo} className="h-[4rem]" />
     </div>
     <div className="flex gap-5">
       <div>
       </div>
-      <div className="text-white"> {user?.displayName}</div>
-      <button onClick={handleSignOut} className="text-white mr-[1rem]">Sign Out</button>
+      <div className="text-white pr-10 "> Hi {user?.displayName}</div>
+      <button onClick={handleSignOut} className="text-white mr-[1rem] hover:text-gray-400 ">Sign Out</button>
     </div>
   </div></div>
   )
